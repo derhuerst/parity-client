@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "parity-client",
+  "description": "A lightweight client to the Parity JSON RPCs.",
+  "version": "0.1.0",
+  "keywords": [
+    "ethereum",
+    "parity",
+    "parity.js",
+    "web3"
+  ],
+  "author": "Jannis R <mail@jannisr.de>",
+  "homepage": "https://github.com/derhuerst/parity-client",
+  "repository": "derhuerst/parity-client",
+  "bugs": "https://github.com/derhuerst/parity-client/issues",
+  "license": "ISC",
+  "engines": {
+    "node": ">=6"
+  },
+  "devDependencies": {
+    "husky": "^0.13.1",
+    "standard": "^8.6.0"
+  },
+  "scripts": {
+    "lint": "standard",
+    "prepush": "npm run lint"
+  },
+  "dependencies": {
+  }
+}
