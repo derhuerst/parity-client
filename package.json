@@ -7,13 +7,15 @@
     "ethereum",
     "parity",
     "parity.js",
-    "web3"
+    "web3",
+    "rpc",
+    "jsonrpc"
   ],
   "author": "Jannis R <mail@jannisr.de>",
   "homepage": "https://github.com/derhuerst/parity-client",
   "repository": "derhuerst/parity-client",
   "bugs": "https://github.com/derhuerst/parity-client/issues",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "engines": {
     "node": ">=6"
   },
