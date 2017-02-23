@@ -52,16 +52,48 @@ const encodeBlockNr = (val) => {
   return numberToHex(val)
 }
 
-module.exports = {
+const encodeArray = (arr, format) => {
+  if (!encoders[format]) throw new Error('no encoder for primitive type ' + format)
+  return arr.map(encoders[format])
+}
+
+const encodeObject = (obj, formats) => {
+  const res = {}
+
+  for (let key in obj) {
+    const format = formats[key]
+    // if (!format) throw new Error('no encoder for object key ' + key)
+    if (!format) continue // todo
+    res[key] = encode(obj[key], format)
+  }
+
+  return res
+}
+
+const encoders = {
   boolean: primitive,
   number: numberToHex,
   string: primitive,
   data: encodeData,
   address: encodeAddress,
   hash: encodeHash,
-  blockNr: encodeBlockNr
-  // todo: array
-  // todo: object
+  blockNr: encodeBlockNr,
+  array: encodeArray,
+  object: encodeObject
   // todo: call
   // todo: work
 }
+
+const encode = (val, format) => {
+  if (Array.isArray(format)) {
+    const encoder = encoders[format[0]]
+    if (!encoder) throw new Error('no encoder for complex type ' + format[0])
+    return encoder(val, ...format.slice(1))
+  }
+
+  const encoder = encoders[format]
+  if (!encoder) throw new Error('no encoder for primitive type ' + format)
+  return encoder(val)
+}
+
+module.exports = encode

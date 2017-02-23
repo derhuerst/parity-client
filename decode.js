@@ -32,14 +32,46 @@ const decodeBlockNr = (val) => {
   return hexToNumber(val)
 }
 
-module.exports = {
+const decodeArray = (arr, format) => {
+  if (!decoders[format]) throw new Error('no decoder for primitive type ' + format)
+  return arr.map(decoders[format])
+}
+
+const decodeObject = (obj, formats) => {
+  const res = {}
+
+  for (let key in obj) {
+    const format = formats[key]
+    // if (!format) throw new Error('no decoder for object key ' + key)
+    if (!format) continue // todo
+    res[key] = decode(obj[key], format)
+  }
+
+  return res
+}
+
+const decoders = {
   boolean: primitive,
   number: hexToNumber,
   string: primitive,
   data: hexToBuffer,
   address: primitive,
   hash: primitive,
-  blockNr: decodeBlockNr
-  // todo: array
-  // todo: object
+  blockNr: decodeBlockNr,
+  array: decodeArray,
+  object: decodeObject
 }
+
+const decode = (val, format) => {
+  if (Array.isArray(format)) {
+    const decoder = decoders[format[0]]
+    if (!decoder) throw new Error('no decoder for complex type ' + format[0])
+    return decoder(val, ...format.slice(1))
+  }
+
+  const decoder = decoders[format]
+  if (!decoder) throw new Error('no decoder for primitive type ' + format)
+  return decoder(val)
+}
+
+module.exports = decode
