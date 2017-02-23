@@ -26,5 +26,9 @@
     "prepush": "npm run lint"
   },
   "dependencies": {
+    "fetch-ponyfill": "^4.0.0",
+    "parity-rpcs": "^0.1.0",
+    "pinkie-promise": "^2.0.1",
+    "randombytes": "^2.0.3"
   }
 }
