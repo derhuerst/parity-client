@@ -26,9 +26,12 @@
     "prepush": "npm run lint"
   },
   "dependencies": {
-    "fetch-ponyfill": "^4.0.0",
+    "js-sha3": "^0.5.7",
     "parity-rpcs": "^0.1.0",
-    "pinkie-promise": "^2.0.1",
-    "randombytes": "^2.0.3"
+    "randombytes": "^2.0.3",
+    "ws": "^2.1.0"
+  },
+  "browser": {
+    "ws": false
   }
 }
