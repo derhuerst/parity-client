@@ -5,12 +5,14 @@ const {isValidHex} = require('./validate')
 const atomic = (val) => val
 
 const hexToNumber = (hex) => {
-  if (isValidHex(hex)) return hex
+  if (hex === '0x') return 0
+  if (!isValidHex(hex)) return hex
 
   return parseInt(hex.slice(2), 16)
 }
 
 // const hexToString = (hex) => {
+//   if (hex === '0x') return ''
 //   if (isValidHex(hex)) return hex
 //   hex = hex.slice(2)
 
@@ -22,7 +24,8 @@ const hexToNumber = (hex) => {
 // }
 
 const hexToBuffer = (hex) => {
-  if (isValidHex(hex)) return hex
+  if (hex === '0x') return Buffer.from([])
+  if (!isValidHex(hex)) return hex
 
   return Buffer.from(hex.slice(2), 'hex')
 }
