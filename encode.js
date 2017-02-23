@@ -1,8 +1,9 @@
 'use strict'
+Buffer.from([]) // todo: https://github.com/substack/node-browserify/issues/1531
 
 const {isValidHex} = require('./validate')
 
-const primitive = (val) => val
+const atomic = (val) => val
 
 // const stringToHex = (str) => {
 //   if (isValidHex(str)) return str
@@ -53,7 +54,7 @@ const encodeBlockNr = (val) => {
 }
 
 const encodeArray = (arr, format) => {
-  if (!encoders[format]) throw new Error('no encoder for primitive type ' + format)
+  if (!encoders[format]) throw new Error('no encoder for atomic format ' + format)
   return arr.map(encoders[format])
 }
 
@@ -71,9 +72,9 @@ const encodeObject = (obj, formats) => {
 }
 
 const encoders = {
-  boolean: primitive,
+  boolean: atomic,
   number: numberToHex,
-  string: primitive,
+  string: atomic,
   data: encodeData,
   address: encodeAddress,
   hash: encodeHash,
@@ -87,12 +88,12 @@ const encoders = {
 const encode = (val, format) => {
   if (Array.isArray(format)) {
     const encoder = encoders[format[0]]
-    if (!encoder) throw new Error('no encoder for complex type ' + format[0])
+    if (!encoder) throw new Error('no encoder for complex format ' + format[0])
     return encoder(val, ...format.slice(1))
   }
 
   const encoder = encoders[format]
-  if (!encoder) throw new Error('no encoder for primitive type ' + format)
+  if (!encoder) throw new Error('no encoder for atomic format ' + format)
   return encoder(val)
 }
 

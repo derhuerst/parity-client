@@ -2,7 +2,7 @@
 
 const {isValidHex} = require('./validate')
 
-const primitive = (val) => val
+const atomic = (val) => val
 
 const hexToNumber = (hex) => {
   if (isValidHex(hex)) return hex
@@ -33,7 +33,7 @@ const decodeBlockNr = (val) => {
 }
 
 const decodeArray = (arr, format) => {
-  if (!decoders[format]) throw new Error('no decoder for primitive type ' + format)
+  if (!decoders[format]) throw new Error('no decoder for atomic format ' + format)
   return arr.map(decoders[format])
 }
 
@@ -51,12 +51,12 @@ const decodeObject = (obj, formats) => {
 }
 
 const decoders = {
-  boolean: primitive,
+  boolean: atomic,
   number: hexToNumber,
-  string: primitive,
+  string: atomic,
   data: hexToBuffer,
-  address: primitive,
-  hash: primitive,
+  address: atomic,
+  hash: atomic,
   blockNr: decodeBlockNr,
   array: decodeArray,
   object: decodeObject
@@ -65,12 +65,12 @@ const decoders = {
 const decode = (val, format) => {
   if (Array.isArray(format)) {
     const decoder = decoders[format[0]]
-    if (!decoder) throw new Error('no decoder for complex type ' + format[0])
+    if (!decoder) throw new Error('no decoder for complex format ' + format[0])
     return decoder(val, ...format.slice(1))
   }
 
   const decoder = decoders[format]
-  if (!decoder) throw new Error('no decoder for primitive type ' + format)
+  if (!decoder) throw new Error('no decoder for atomic format ' + format)
   return decoder(val)
 }
 
