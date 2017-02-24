@@ -3,6 +3,7 @@
   "name": "parity-client",
   "description": "A lightweight client to the Parity JSON RPCs.",
   "version": "0.1.0",
+  "main": "lib/index.js",
   "keywords": [
     "ethereum",
     "parity",

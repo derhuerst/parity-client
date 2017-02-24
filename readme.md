@@ -22,7 +22,7 @@ This assumes you have Parity running at `localhost` with `--jsonrpc-apis net,eth
 ```js
 const {eth} = require('parity-rpcs')
 const client = require('parity-client')
-const call = require('parity-client/call')
+const call = require('parity-client/lib/call')
 
 const token = '2M28-4gXT-X2qW-bAaS'
 const connection = client('localhost:8180', token)
